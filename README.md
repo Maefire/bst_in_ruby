@@ -25,10 +25,10 @@ end
 
 ```
    You may be tempted to implement these methods using the original input array, but it’s important for the
-    efficiency of these operations that you don’t do this. If we refer back to the Big O Cheatsheet, we’ll 
-    see that binary search trees can insert/delete in O(log n) time, which is a significant performance 
-    boost over arrays for the same operations. In order to get this added efficiency, your implementation of 
-    these methods should traverse the tree and manipulate the nodes and their connections.
+   efficiency of these operations that you don’t do this. If we refer back to the Big O Cheatsheet, we’ll
+   see that binary search trees can insert/delete in O(log n) time, which is a significant performance
+   boost over arrays for the same operations. In order to get this added efficiency, your implementation of
+   these methods should traverse the tree and manipulate the nodes and their connections.
 ```
 
 5. Write a #find method which accepts a value and returns the node with the given value.

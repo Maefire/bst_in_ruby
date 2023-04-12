@@ -17,7 +17,7 @@ class Node
   end
 
   def single_child?
-    return true if (left_node && !right_node) || (right_node && !left_node)
+    (left_node && !right_node) || (right_node && !left_node)
   end
 
   def find_min

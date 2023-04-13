@@ -113,6 +113,33 @@ class Tree
     result
   end
 
+  def preorder(node = root, result = [], &block)
+    return result if node.nil?
+
+    result << (block ? yield(node) : node.data)
+    preorder(node.left_node, result, &block)
+    preorder(node.right_node, result, &block)
+    result
+  end
+
+  def inorder(node = root, result = [], &block)
+    return result if node.nil?
+
+    inorder(node.left_node, result, &block)
+    result << (block ? yield(node) : node.data)
+    inorder(node.right_node, result, &block)
+    result
+  end
+
+  def postorder(node = root, result = [], &block)
+    return result if node.nil?
+
+    postorder(node.left_node, result, &block)
+    postorder(node.right_node, result, &block)
+    result << (block ? yield(node) : node.data)
+    result
+  end
+
   private
 
   def new_node(value)

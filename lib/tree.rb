@@ -83,21 +83,12 @@ class Tree
     return nil if current_node.nil?
     return current_node if current_node.data.eql?(value)
 
-    if current_node.data > value
+    node = new_node(value)
+
+    if current_node > node
       find(value, current_node.left_node)
     else
       find(value, current_node.right_node)
-    end
-  end
-
-  def find_parent(node, current_node = root)
-    return nil if current_node.nil?
-    return current_node if current_node.parent?(node)
-
-    if node.data < current_node.data
-      find_parent(node, current_node.left_node)
-    else
-      find_parent(node, current_node.right_node)
     end
   end
 
@@ -140,7 +131,43 @@ class Tree
     result
   end
 
+  # count edges from node to furthest leaf. To do this, find all leaves, and count edges against node. Largest distance is height?
+  def height(node)
+    return "#{node} height: 0" if node.leaf?
+
+    leaf_pile = inorder(node) { |node| node if node.leaf? }.compact
+    distances = leaf_pile.map { |leaf| edge_count(leaf, node) }.max
+    "#{node} height: #{distances}"
+  end
+
+  # count edges from node to root.
+  def depth(node)
+    return "#{node} depth: 0" if node.eql?(root)
+    node_depth = edge_count(node, root)
+    "#{node} depth: #{node_depth}"
+  end
+
   private
+
+  def find_parent(node, current_node = root)
+    return nil if current_node.nil?
+    return current_node if current_node.parent?(node)
+
+    if node < current_node
+      find_parent(node, current_node.left_node)
+    else
+      find_parent(node, current_node.right_node)
+    end
+  end
+
+  def edge_count(start_node, end_node)
+    count = 0
+    until start_node.eql?(end_node)
+      start_node = find_parent(start_node)
+      count += 1
+    end
+    count
+  end
 
   def new_node(value)
     Node.new(value)

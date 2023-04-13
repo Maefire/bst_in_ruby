@@ -101,6 +101,20 @@ class Tree
     end
   end
 
+  def level_order(result = [], queue = [], &block)
+    # root moves into queue. parent.left_node moves into queue. parent.right_node moves into queue. root moves into result.
+    queue << root
+    until queue.empty?
+      node = queue.shift
+      result << (block ? yield(node) : node.data)
+      queue << node.left_node if node.left_node
+      queue << node.right_node if node.right_node
+    end
+    result
+  end
+
+  private
+
   def new_node(value)
     Node.new(value)
   end

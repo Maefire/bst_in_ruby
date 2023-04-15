@@ -1,4 +1,8 @@
+require_relative "./comparable"
+
 class Node
+  include Comparable
+
   attr_reader :data
   attr_accessor :left_node, :right_node
 

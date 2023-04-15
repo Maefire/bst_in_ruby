@@ -5,20 +5,20 @@ class Tree
   include Display
   attr_accessor :root
 
-  def initialize(array)
-    @array = array.uniq!.sort!
-    @root = build_tree(@array)
+  def initialize
+    @root = nil
   end
 
   def build_tree(array)
     return if array.empty?
 
-    mid = array.length / 2
-    return new_node(array[0]) if array.length.eql?(1)
+    prep_array = array.uniq.sort
+    mid = prep_array.length / 2
+    return new_node(prep_array[0]) if prep_array.length.eql?(1)
 
-    node = new_node(array[mid])
-    node.left_node = build_tree(array[0...mid])
-    node.right_node = build_tree(array[(mid + 1)..])
+    node = new_node(prep_array[mid])
+    node.left_node = build_tree(prep_array[0...mid])
+    node.right_node = build_tree(prep_array[(mid + 1)..])
 
     @root = node
   end
@@ -133,18 +133,33 @@ class Tree
 
   # count edges from node to furthest leaf. To do this, find all leaves, and count edges against node. Largest distance is height?
   def height(node)
-    return "#{node} height: 0" if node.leaf?
+    return 0 if node.leaf?
 
     leaf_pile = inorder(node) { |node| node if node.leaf? }.compact
-    distances = leaf_pile.map { |leaf| edge_count(leaf, node) }.max
-    "#{node} height: #{distances}"
+    leaf_pile.map { |leaf| edge_count(leaf, node) }.max
   end
 
   # count edges from node to root.
   def depth(node)
-    return "#{node} depth: 0" if node.eql?(root)
-    node_depth = edge_count(node, root)
-    "#{node} depth: #{node_depth}"
+    return 0 if node.eql?(root)
+    edge_count(node, root)
+  end
+
+  # check left and right depth. Compare "deepest" node on each side. If > 1, return false
+  def balanced?(current_node = root)
+    return true if current_node.nil?
+
+    left_height = height(current_node.left_node) if current_node.left_node
+    right_height = height(current_node.right_node) if current_node.right_node
+    (left_height - right_height).abs <= 1
+  end
+
+  # check if balanced? returns false. If false, run #inorder method, then pass that into #build_tree
+  def rebalance
+    return "Tree is already balanced" if balanced?
+    build_tree(inorder)
+    # sorted_arr = inorder
+    # build_tree(sorted_arr)
   end
 
   private

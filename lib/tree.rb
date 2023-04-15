@@ -39,12 +39,7 @@ class Tree
 
     # case 1: node is leaf
     if target.leaf?
-      if parent.left_node.eql?(target)
-        parent.left_node = nil
-      else
-        parent.right_node = nil
-      end
-
+      parent.left_node.eql?(target) ? parent.left_node = nil : parent.right_node = nil
     # case 2: node has 1 child
     elsif target.single_child?
       if parent.left_node.eql?(target)
@@ -52,30 +47,20 @@ class Tree
       else
         parent.right_node = target.left_node || target.right_node
       end
-
     # case 3: node has two children
     else
       successor = target.right_node.find_min
       if target.right_node.eql?(successor)
-        if parent.left_node.eql?(target)
-          parent.left_node = successor
-        else
-          parent.right_node = successor
-        end
+        parent.left_node.eql?(target) ? parent.left_node = successor : parent.right_node = successor
         successor.left_node = target.left_node
       else
         suc_parent = find_parent(successor)
-        if parent.left_node.eql?(target)
-          parent.left_node = successor
-        else
-          parent.right_node = successor
-        end
+        parent.left_node.eql?(target) ? parent.left_node = successor : parent.right_node = successor
         suc_parent.left_node = successor.right_node
         successor.right_node = target.right_node
         successor.left_node = target.left_node
       end
     end
-
     target
   end
 
@@ -84,12 +69,7 @@ class Tree
     return current_node if current_node.data.eql?(value)
 
     node = new_node(value)
-
-    if current_node > node
-      find(value, current_node.left_node)
-    else
-      find(value, current_node.right_node)
-    end
+    (current_node > node) ? find(value, current_node.left_node) : find(value, current_node.right_node)
   end
 
   def level_order(result = [], queue = [], &block)
@@ -158,8 +138,6 @@ class Tree
   def rebalance
     return "Tree is already balanced" if balanced?
     build_tree(inorder)
-    # sorted_arr = inorder
-    # build_tree(sorted_arr)
   end
 
   private
@@ -168,11 +146,7 @@ class Tree
     return nil if current_node.nil?
     return current_node if current_node.parent?(node)
 
-    if node < current_node
-      find_parent(node, current_node.left_node)
-    else
-      find_parent(node, current_node.right_node)
-    end
+    (node < current_node) ? find_parent(node, current_node.left_node) : find_parent(node, current_node.right_node)
   end
 
   def edge_count(start_node, end_node)

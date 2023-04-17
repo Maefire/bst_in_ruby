@@ -3,10 +3,15 @@ require_relative "./display"
 
 class Tree
   include Display
+
+  private
+
   attr_accessor :root
 
+  public
+
   def initialize
-    @root = nil
+    self.root = nil
   end
 
   def build_tree(array)
@@ -20,7 +25,7 @@ class Tree
     node.left_node = build_tree(prep_array[0...mid])
     node.right_node = build_tree(prep_array[(mid + 1)..])
 
-    @root = node
+    self.root = node
   end
 
   def insert(value, current_node = root)

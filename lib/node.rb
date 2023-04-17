@@ -3,13 +3,12 @@ require_relative "./comparable"
 class Node
   include Comparable
 
-  attr_reader :data
-  attr_accessor :left_node, :right_node
+  attr_accessor :left_node, :right_node, :data
 
   def initialize(data)
-    @data = data
-    @left_node = nil
-    @right_node = nil
+    self.data = data
+    self.right_node = nil
+    self.left_node = nil
   end
 
   def parent?(node)

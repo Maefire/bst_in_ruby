@@ -6,7 +6,7 @@ def driver
   arr = (Array.new(15) { rand(1..100) })
   tree_1 = Tree.new
   tree_1.build_tree(arr)
-  p tree_1.balanced?
+  p "Tree balanced: #{tree_1.balanced?}"
   puts "level order: \t#{tree_1.level_order}\n" \
     "preorder: \t#{tree_1.preorder}\n" \
     "postorder: \t#{tree_1.postorder}\n" \
@@ -15,9 +15,9 @@ def driver
   tree_1.insert(101)
   tree_1.insert(1121)
   tree_1.insert(11023)
-  p tree_1.balanced?
+  p "Tree balanced: #{tree_1.balanced?}"
   tree_1.rebalance
-  p tree_1.balanced?
+  p "Tree balanced: #{tree_1.balanced?}"
   puts "level order: \t#{tree_1.level_order}\n" \
   "preorder: \t#{tree_1.preorder}\n" \
   "postorder: \t#{tree_1.postorder}\n" \
